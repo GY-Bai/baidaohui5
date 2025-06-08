@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "include": [
+    "/api/auth/*",
+    "/api/invite/*",
+    "/api/stripe-session/*"
+  ],
+  "exclude": [
+    "/api/chat/*",
+    "/api/fortune/*",
+    "/api/products/*",
+    "/api/webhook/*",
+    "/api/ai/*",
+    "/api/key/*",
+    "/api/admin/*"
+  ]
+} 

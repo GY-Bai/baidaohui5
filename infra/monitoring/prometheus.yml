@@ -1,0 +1,60 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # Prometheus自监控
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Node Exporter - 系统指标
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: 
+        - '107.172.87.113:9100'  # 圣何塞VPS
+        - '216.144.233.104:9100' # 水牛城VPS
+    scrape_interval: 30s
+
+  # MongoDB Atlas监控通过应用指标实现
+  # Atlas自带监控面板，无需额外exporter
+
+  # 应用服务指标
+  - job_name: 'gateway'
+    static_configs:
+      - targets: ['107.172.87.113:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  - job_name: 'fortune-service'
+    static_configs:
+      - targets: ['216.144.233.104:3001']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  - job_name: 'chat-service'
+    static_configs:
+      - targets: ['107.172.87.113:3002']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  - job_name: 'ai-proxy'
+    static_configs:
+      - targets: ['107.172.87.113:3003']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+
+  # Nginx指标
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['107.172.87.113:9113']
+    scrape_interval: 30s 

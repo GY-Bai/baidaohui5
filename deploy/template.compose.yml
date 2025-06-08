@@ -1,0 +1,147 @@
+version: '3.8'
+
+services:
+  # Gateway Service - 圣何塞VPS (主要面向需常驻的交互服务)
+  gateway:
+    build:
+      context: ../services/gateway
+      dockerfile: ../../docker/base-node.dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGODB_URI=${MONGODB_URI}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - BARK_API_URL=${BARK_API_URL}
+    mem_limit: 512m
+    restart: unless-stopped
+    networks:
+      - baidaohui-network
+
+  # Fortune Service - 水牛城VPS (主要处理后台重任务)
+  fortune-service:
+    build:
+      context: ../services/fortune
+      dockerfile: ../../docker/base-node.dockerfile
+    ports:
+      - "3001:3001"
+      - "50051:50051"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - GRPC_PORT=50051
+      - MONGODB_URI=${MONGODB_URI}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - BARK_API_URL=${BARK_API_URL}
+    mem_limit: 256m
+    restart: unless-stopped
+    networks:
+      - baidaohui-network
+
+  # Chat Service - 圣何塞VPS (实时交互服务)
+  chat-service:
+    build:
+      context: ../services/chat
+      dockerfile: ../../docker/base-node.dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+      - PORT=3002
+      - MONGODB_URI=${MONGODB_URI}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - R2_ENDPOINT=${R2_ENDPOINT}
+      - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
+      - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
+      - R2_BUCKET_NAME=${R2_BUCKET_NAME}
+      - BARK_API_URL=${BARK_API_URL}
+    mem_limit: 256m
+    restart: unless-stopped
+    networks:
+      - baidaohui-network
+
+  # AI Proxy Service - 圣何塞VPS (快速响应服务)
+  ai-proxy:
+    build:
+      context: ../services/ai-proxy
+      dockerfile: ../../docker/base-node.dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+      - PORT=3003
+      - MONGODB_URI=${MONGODB_URI}
+      # AI服务密钥（可选，如果未配置将使用默认算力云服务）
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      # 默认算力云服务配置（备用AI服务）
+      - SUANLI_API_KEY=${SUANLI_API_KEY}
+      - SUANLI_API_URL=${SUANLI_API_URL:-https://api.suanli.cn/v1}
+      - SUANLI_DEFAULT_MODEL=${SUANLI_DEFAULT_MODEL:-free:QwQ-32B}
+      - JWT_SECRET=${JWT_SECRET}
+      - BARK_API_URL=${BARK_API_URL}
+    mem_limit: 256m
+    restart: unless-stopped
+    networks:
+      - baidaohui-network
+
+  # Auth Service - 圣何塞VPS (认证服务)
+  auth-service:
+    build:
+      context: ../services/auth
+      dockerfile: ../../docker/base-node.dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=production
+      - PORT=3004
+      - MONGODB_URI=${MONGODB_URI}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - BARK_API_URL=${BARK_API_URL}
+    mem_limit: 128m
+    restart: unless-stopped
+    networks:
+      - baidaohui-network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../infra/nginx:/etc/nginx/conf.d
+      - ../infra/ssl:/etc/ssl/certs
+    depends_on:
+      - gateway
+      - fortune-service
+      - chat-service
+      - ai-proxy
+      - auth-service
+    mem_limit: 64m
+    restart: unless-stopped
+    networks:
+      - baidaohui-network
+
+networks:
+  baidaohui-network:
+    driver: bridge
+
+# 总内存分配:
+# 圣何塞VPS (2.4G): gateway(512m) + chat(256m) + ai-proxy(256m) + auth(128m) + nginx(64m) = 1.216G
+# 水牛城VPS (0.6G): fortune-service(256m) = 256m
+# 预留内存用于系统和其他进程 

@@ -1,0 +1,97 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+圣何塞VPS：ssh bgy@107.172.87.113 + “命令”
+水牛城VPS：ssh bgy@216.144.233.104 + “命令”
+| 条目                     | 说明                                                                                                                                   |         |          |              |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------- | -------- | ------------ |
+| **仓库模板**               | `pnpm create next-app -e https://github.com/makerkit/nextjs-saas-starter-kit-lite`                                                   |         |          |              |
+| **UI 组件**              | 仅 **shadcn/ui**；如需其他组件请先在任务中说明再引入。                                                                                                   |         |          |              |
+| **聊天前端**               | `stream-chat-react` + **自写 Adapter**（无语音/视频/直播）。                                                                                     |         |          |              |
+| **聊天后端**               | <br>• 实时消息 → Supabase Realtime (WebSocket)<br>• 衍生功能（撤回、既读、缩略图）→ 轻量 `chat-service` (NestJS) + R2<br>• 元数据（已读标记等）存 Supabase Postgres。 |         |          |              |
+| **轻量 Pages Functions** | `/api/auth`, `/api/invite`, `/api/stripe-session`                                                                                    |         |          |              |
+| **Fastify Gateway**    | DNS: `gateway.baidaohui.com`；反代 \`/api/chat                                                                                          | fortune | products | webhook/\*\` |
+| **Monorepo**           | `apps/web`, `functions/pages`, `services/*` 均置于 pnpm workspace。                                                                      |         |          |              |
+
+
+## 1 通用原则
+
+1. **最少依赖**：除本规则显式允许的库，其余三方依赖须先在 `docs/decision-records/` 提交 ADR 并获批准。
+2. **单一事实源（SSOT）**：所有规范（组件 API、接口契约、数据库 schema）以仓库文件为准，不以聊天历史为准。
+3. **Fail Fast**：编译、Lint、Type Check 任何一步失败即视为任务未完成。
+4. **零硬编码**：密钥、URL、flag 一律通过 `.env*` 或 Wrangler KV 注入，禁止写在源码。
+
+## 2 Git & Commit
+
+| 规则      | 说明                                                                                                        |
+| ------- | --------------------------------------------------------------------------------------------------------- |
+| **G-1** | **Conventional Commits**：`type(scope): subject`，type 仅限 feat / fix / chore / refactor / test / docs / ci。 |
+| **G-2** | 每个 **PR ≤ 400 行差异**；大改动需拆分多 PR。                                                                           |
+| **G-3** | PR 模板必须包含：动机、变动要点、截图/录像、测试结果、关联 Task ID。                                                                  |
+
+## 3 前端 (Next.js 15)
+
+| 规则      | 说明                                                                            |
+| ------- | ----------------------------------------------------------------------------- |
+| **F-1** | 组件放 `apps/web/components/**`，页面放 `apps/web/app/**/page.tsx`；禁止跨层引用。           |
+| **F-2** | UI 组件仅用 **shadcn/ui**；自定义样式用 Tailwind v4，用 @apply 替代内联 style。                 |
+| **F-3** | React 仅写 **函数组件 + hooks**；禁止 class 组件、`useEffect` 中直接 async。                  |
+| **F-4** | `stream-chat-react` 适配器代码统一放 `lib/chatAdapter.ts`，必须显式 `disableAudioVideo()`。 |
+| **F-5** | 图片直传 R2：使用预签名 URL，成功后必须回写缩略图 URL。                                             |
+
+## 4 后端 (NestJS v10 Micro-Services)
+
+| 规则      | 说明                                                                                  |
+| ------- | ----------------------------------------------------------------------------------- |
+| **B-1** | 每个服务目录 `services/<name>-service`；入口 `main.ts` 内只做 DI & bootstrap。                   |
+| **B-2** | gRPC DTO **全部走 `class-validator` + `class-transformer`**，禁用 `@IsOptional()` 除非确有必要。 |
+| **B-3** | 日志用 `@nestjs-pino`; level 随 `NODE_ENV` 切换。                                          |
+| **B-4** | 数据访问层单独 `*.repository.ts`，禁止在 controller/service 里写裸查询。                             |
+
+## 5 数据库
+
+| 规则      | 说明                                                                        |
+| ------- | ------------------------------------------------------------------------- |
+| **D-1** | Mongo 集合命名全部小写复数：`orders`, `invites`, `keys` …                            |
+| **D-2** | 所有集合创建复合索引需在 `schema.ts` 里显式 `@Index()`。                                  |
+| **D-3** | Supabase Postgres RLS：任何 `SELECT/INSERT/UPDATE` 必须经过 `auth.uid() = …` 判断。 |
+
+## 6 测试 & 质量
+
+| 规则      | 说明                                                                     |
+| ------- | ---------------------------------------------------------------------- |
+| **T-1** | 单元测试用 **Vitest**（前端） / **Jest**（后端），**覆盖率 ≥ 80%**。                     |
+| **T-2** | 所有 Pages Functions 需有 **Integration Test** (Wrangler D1/Lite)。         |
+| **T-3** | E2E 用 **Playwright**，脚本放 `tests/e2e/`，需跑在 CI。                          |
+| **T-4** | `pnpm lint`（ESLint + Prettier） 与 `pnpm typecheck --strict` 必须 0 Error。 |
+
+## 7 CI / CD
+
+1. **GitHub Actions**：
+
+   * Job matrix = lint → typecheck → unit-test → build; 均通过才可 deploy。
+2. **Pages Functions** 自动部署；VPS 服务用 **rolling restart** (no downtime)。
+3. **Semantic Versioning**：`main` 合并自动 bump patch；breaking 改 bump major 并生成 GitHub Release。
+
+## 8 安全
+
+| 规则      | 说明                                              |
+| ------- | ----------------------------------------------- |
+| **S-1** | 禁止在 PR 中输出 `process.env.*` 值，日志脱敏。              |
+| **S-2** | 上传到 R2 的文件名使用 UUID v4；不得保留原始文件名中用户信息。           |
+| **S-3** | Stripe Webhook 校验 `signature`，并记录 `eventId` 去重。 |
+
+## 9 可访问性 & 性能
+
+1. **每新页面 Lighthouse 移动端 ≥ 90 分**。
+2. 所有交互元素需 `aria-label`。
+3. 图片默认 `loading="lazy"`，chat 图片缩略图不超过 256 px 长边。
+
+## 10 异常与日志
+
+1. **统一异常过滤器**：返回 `{ code, message, traceId }`。
+2. 任何 5xx 需日志告警；使用 Telegram Bot 通知 DevOps 频道（配置在 `.env`）。
+
+

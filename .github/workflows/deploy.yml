@@ -1,0 +1,200 @@
+name: Deploy Services
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies
+        run: |
+          cd apps/web/apps/web
+          pnpm install
+          
+      - name: Build frontend
+        run: |
+          cd apps/web/apps/web
+          pnpm build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          AI_PROXY_URL: https://gateway.baidaohui.com
+          
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: baidaohui
+          directory: apps/web/apps/web/out
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-pages-functions:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          
+      - name: Install dependencies and build
+        run: |
+          cd functions/pages
+          pnpm install
+          pnpm build
+          
+      - name: Deploy Pages Functions
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=baidaohui
+          workingDirectory: functions/pages
+
+  deploy-sj-vps:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-frontend]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to San Jose VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 107.172.87.113
+          username: bgy
+          key: ${{ secrets.SJ_VPS_SSH_KEY }}
+          script: |
+            cd /home/bgy/baidaohui || mkdir -p /home/bgy/baidaohui
+            
+            # 拉取最新代码
+            if [ -d ".git" ]; then
+              git pull origin main
+            else
+              git clone git@github.com:GY-Bai/baidaohui5.git .
+            fi
+            
+            # 创建环境变量文件
+            cat > .env << EOF
+            NODE_ENV=production
+            MONGODB_URI=${{ secrets.MONGODB_URI }}
+            SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}
+            SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+            JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}
+            R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY }}
+            R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_KEY }}
+            R2_BUCKET_NAME=${{ secrets.R2_BUCKET }}
+            R2_ENDPOINT=${{ secrets.R2_ENDPOINT }}
+            R2_PUBLIC_URL=https://${{ secrets.R2_BUCKET }}.r2.dev
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}
+            OPENROUTER_API_KEY=${{ secrets.OPENROUTER_API_KEY }}
+            GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+            SUANLI_API_KEY=${{ secrets.SUANLI_API_KEY }}
+            SUANLI_API_URL=https://api.suanli.cn/v1
+            SUANLI_DEFAULT_MODEL=free:QwQ-32B
+            BARK_API_URL=https://api.day.app/KX4VECCFPvfyponWk664rJ
+            EXCHANGE_RATE_API_KEY=${{ secrets.EXCHANGE_RATE_API_KEY }}
+            MJ_APIKEY_PUBLIC=${{ secrets.MJ_APIKEY_PUBLIC }}
+            MJ_APIKEY_PRIVATE=${{ secrets.MJ_APIKEY_PRIVATE }}
+            EOF
+            
+            # 使用Docker Compose部署
+            docker-compose -f deploy/template.compose.yml down || true
+            docker-compose -f deploy/template.compose.yml pull
+            docker-compose -f deploy/template.compose.yml up -d gateway chat-service ai-proxy auth-service nginx
+            
+            # 等待服务启动
+            sleep 30
+            
+            # 健康检查
+            curl -f http://localhost:3000/health || exit 1
+            curl -f http://localhost:3001/health || exit 1
+            curl -f http://localhost:3002/health || exit 1
+            
+            # 发送部署成功通知
+            curl -X POST "https://api.day.app/KX4VECCFPvfyponWk664rJ/圣何塞VPS部署成功/所有服务已启动并通过健康检查"
+
+  deploy-buf-vps:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-frontend]
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Deploy to Buffalo VPS
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 216.144.233.104
+          username: bgy
+          key: ${{ secrets.BUF_VPS_SSH_KEY }}
+          script: |
+            cd /home/bgy/baidaohui || mkdir -p /home/bgy/baidaohui
+            
+            # 拉取最新代码
+            if [ -d ".git" ]; then
+              git pull origin main
+            else
+              git clone git@github.com:GY-Bai/baidaohui5.git .
+            fi
+            
+            # 创建环境变量文件
+            cat > .env << EOF
+            NODE_ENV=production
+            MONGODB_URI=${{ secrets.MONGODB_URI }}
+            SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+            SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_KEY }}
+            SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+            JWT_SECRET=${{ secrets.SUPABASE_JWT_SECRET }}
+            BARK_API_URL=https://api.day.app/KX4VECCFPvfyponWk664rJ
+            EXCHANGE_RATE_API_KEY=${{ secrets.EXCHANGE_RATE_API_KEY }}
+            EOF
+            
+            # 部署Fortune Service
+            cd services/fortune
+            pnpm install --prod || npm install --production
+            pm2 stop fortune-service || true
+            pm2 start dist/main.js --name fortune-service --max-memory-restart 256M
+            pm2 save
+            
+            # 健康检查
+            sleep 10
+            curl -f http://localhost:3004/health || exit 1
+            
+            # 发送部署成功通知
+            curl -X POST "https://api.day.app/KX4VECCFPvfyponWk664rJ/水牛城VPS部署成功/Fortune服务已启动并通过健康检查"
+
+  notify-completion:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-frontend, deploy-pages-functions, deploy-sj-vps, deploy-buf-vps]
+    steps:
+      - name: Send completion notification
+        run: |
+          curl -X POST "https://api.day.app/KX4VECCFPvfyponWk664rJ/百刀会部署完成/前端、后端服务和Pages Functions全部部署成功" 

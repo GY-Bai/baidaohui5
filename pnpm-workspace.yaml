@@ -1,0 +1,6 @@
+packages:
+  - "apps/*"
+  - "services/*"
+  - "functions/*"
+  - "packages/*"
+  - "apps/web/tooling/*" 

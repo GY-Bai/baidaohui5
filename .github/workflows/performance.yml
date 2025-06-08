@@ -1,0 +1,184 @@
+name: Performance Tests
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  schedule:
+    # 每周日凌晨3点运行性能测试
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      test_duration:
+        description: 'Test duration (e.g., 5m, 10m)'
+        required: false
+        default: '5m'
+      concurrent_users:
+        description: 'Number of concurrent users'
+        required: false
+        default: '100'
+
+jobs:
+  performance-test:
+    name: K6 Performance Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup k6
+        uses: grafana/setup-k6-action@v1
+        with:
+          k6-version: 'latest'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Start services for testing
+        run: |
+          # 启动必要的服务进行性能测试
+          docker-compose -f deploy/template.compose.yml up -d
+          sleep 30
+        env:
+          NODE_ENV: production
+
+      - name: Wait for services to be ready
+        run: |
+          # 等待服务启动完成
+          timeout 60 bash -c 'until curl -f http://localhost:3000/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -f http://localhost:3001/health; do sleep 2; done'
+          timeout 60 bash -c 'until curl -f http://localhost:3002/health; do sleep 2; done'
+
+      - name: Run Chat Load Test
+        run: |
+          cd tests/performance
+          k6 run \
+            --env BASE_URL=http://localhost:3000 \
+            --env WS_URL=ws://localhost:3002 \
+            --env SCENARIO=chat \
+            --out json=chat-results.json \
+            chat-load-test.js
+
+      - name: Run Payment Load Test
+        run: |
+          cd tests/performance
+          k6 run \
+            --env BASE_URL=http://localhost:3000 \
+            --env SCENARIO=payment \
+            --out json=payment-results.json \
+            chat-load-test.js
+
+      - name: Run Mixed Load Test
+        run: |
+          cd tests/performance
+          k6 run \
+            --env BASE_URL=http://localhost:3000 \
+            --env WS_URL=ws://localhost:3002 \
+            --env SCENARIO=mixed \
+            --out json=mixed-results.json \
+            chat-load-test.js
+
+      - name: Generate Performance Report
+        run: |
+          cd tests/performance
+          echo "# 性能测试报告" > performance-report.md
+          echo "" >> performance-report.md
+          echo "## 测试概览" >> performance-report.md
+          echo "- 测试时间: $(date)" >> performance-report.md
+          echo "- 聊天并发: 100 用户" >> performance-report.md
+          echo "- 支付并发: 20 用户" >> performance-report.md
+          echo "- 目标 p95 响应时间: < 400ms" >> performance-report.md
+          echo "" >> performance-report.md
+          
+          # 解析测试结果
+          if [ -f chat-results.json ]; then
+            echo "## 聊天性能测试结果" >> performance-report.md
+            echo '```json' >> performance-report.md
+            jq '.metrics' chat-results.json >> performance-report.md
+            echo '```' >> performance-report.md
+            echo "" >> performance-report.md
+          fi
+          
+          if [ -f payment-results.json ]; then
+            echo "## 支付性能测试结果" >> performance-report.md
+            echo '```json' >> performance-report.md
+            jq '.metrics' payment-results.json >> performance-report.md
+            echo '```' >> performance-report.md
+            echo "" >> performance-report.md
+          fi
+          
+          if [ -f mixed-results.json ]; then
+            echo "## 混合负载测试结果" >> performance-report.md
+            echo '```json' >> performance-report.md
+            jq '.metrics' mixed-results.json >> performance-report.md
+            echo '```' >> performance-report.md
+          fi
+
+      - name: Upload Performance Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-test-results
+          path: |
+            tests/performance/*.json
+            tests/performance/performance-report.md
+          retention-days: 30
+
+      - name: Check Performance Thresholds
+        run: |
+          cd tests/performance
+          
+          # 检查是否满足性能要求
+          CHAT_P95=$(jq -r '.metrics.http_req_duration.values.p95' chat-results.json 2>/dev/null || echo "0")
+          PAYMENT_P95=$(jq -r '.metrics.http_req_duration.values.p95' payment-results.json 2>/dev/null || echo "0")
+          
+          echo "聊天 P95 响应时间: ${CHAT_P95}ms"
+          echo "支付 P95 响应时间: ${PAYMENT_P95}ms"
+          
+          # 检查是否超过400ms阈值
+          if (( $(echo "$CHAT_P95 > 400" | bc -l) )); then
+            echo "❌ 聊天性能测试失败: P95 响应时间 ${CHAT_P95}ms > 400ms"
+            exit 1
+          fi
+          
+          if (( $(echo "$PAYMENT_P95 > 400" | bc -l) )); then
+            echo "❌ 支付性能测试失败: P95 响应时间 ${PAYMENT_P95}ms > 400ms"
+            exit 1
+          fi
+          
+          echo "✅ 所有性能测试通过"
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker-compose -f deploy/template.compose.yml down
+          docker system prune -f
+
+  notify-performance:
+    name: Notify Performance Results
+    runs-on: ubuntu-latest
+    needs: performance-test
+    if: always()
+    steps:
+      - name: Send notification
+        run: |
+          if [[ "${{ needs.performance-test.result }}" == "success" ]]; then
+            echo "✅ 性能测试通过"
+            echo "📊 100并发聊天 + 20并发支付"
+            echo "🎯 P95 响应时间 < 400ms"
+          else
+            echo "❌ 性能测试失败"
+            echo "📈 请检查性能报告"
+          fi 
