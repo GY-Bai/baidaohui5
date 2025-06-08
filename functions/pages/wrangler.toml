@@ -6,16 +6,9 @@ pages_build_output_dir = "./public"
 [env.production]
 name = "baidaohui-pages"
 
-[env.staging]
-name = "baidaohui-pages-staging"
-
 [[env.production.kv_namespaces]]
 binding = "CACHE"
 id = "your-kv-namespace-id"
-
-[[env.staging.kv_namespaces]]
-binding = "CACHE"
-id = "your-staging-kv-namespace-id"
 
 [vars]
 NODE_ENV = "production"
