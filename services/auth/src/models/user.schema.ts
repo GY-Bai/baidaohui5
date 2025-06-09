@@ -57,7 +57,7 @@ export class User {
   lastLoginAt: Date;
 
   @Prop({ type: Object })
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

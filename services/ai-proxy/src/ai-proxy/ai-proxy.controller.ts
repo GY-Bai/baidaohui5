@@ -6,7 +6,6 @@ import {
   Request,
   UseGuards,
   Res,
-  HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AiProxyService, ChatRequest } from './ai-proxy.service';
@@ -19,6 +18,18 @@ class AuthGuard {
   }
 }
 
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    role: string;
+  };
+}
+
+interface ErrorResponse {
+  message?: string;
+  status?: number;
+}
+
 @Controller('ai')
 @UseGuards(AuthGuard)
 export class AiProxyController {
@@ -29,7 +40,7 @@ export class AiProxyController {
 
   // 聊天接口
   @Post('chat')
-  async chat(@Request() req: any, @Body() body: ChatRequest) {
+  async chat(@Request() req: AuthenticatedRequest, @Body() body: ChatRequest) {
     const userId = req.user?.id || 'test-user';
     const userRole = req.user?.role || 'member';
 
@@ -39,11 +50,12 @@ export class AiProxyController {
         success: true,
         data: response,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || 'AI服务不可用',
-        status: error.status || 500,
+        error: errorResponse.message || 'AI服务不可用',
+        status: errorResponse.status || 500,
       };
     }
   }
@@ -51,7 +63,7 @@ export class AiProxyController {
   // 流式聊天接口
   @Post('chat/stream')
   async chatStream(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Body() body: ChatRequest,
     @Res() res: Response,
   ) {
@@ -74,17 +86,18 @@ export class AiProxyController {
 
       res.write('data: [DONE]\n\n');
       res.end();
-    } catch (error: any) {
-      res.status(error.status || 500).json({
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
+      res.status(errorResponse.status || 500).json({
         success: false,
-        error: error.message || 'AI流式服务不可用',
+        error: errorResponse.message || 'AI流式服务不可用',
       });
     }
   }
 
   // 获取可用模型
   @Get('models')
-  async getModels(@Request() req: any) {
+  async getModels(@Request() req: AuthenticatedRequest) {
     const userRole = req.user?.role || 'fan';
 
     try {
@@ -93,17 +106,18 @@ export class AiProxyController {
         success: true,
         data: { models },
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '获取模型列表失败',
+        error: errorResponse.message || '获取模型列表失败',
       };
     }
   }
 
   // 获取用户使用统计
   @Get('usage')
-  async getUserUsage(@Request() req: any) {
+  async getUserUsage(@Request() req: AuthenticatedRequest) {
     const userId = req.user?.id || 'test-user';
 
     try {
@@ -117,17 +131,18 @@ export class AiProxyController {
           limits: limitStatus,
         },
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '获取使用统计失败',
+        error: errorResponse.message || '获取使用统计失败',
       };
     }
   }
 
   // 获取剩余请求次数
   @Get('limits')
-  async getRemainingLimits(@Request() req: any) {
+  async getRemainingLimits(@Request() req: AuthenticatedRequest) {
     const userId = req.user?.id || 'test-user';
     const userRole = req.user?.role || 'member';
 
@@ -145,10 +160,11 @@ export class AiProxyController {
         success: true,
         data: { remaining },
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '获取限制信息失败',
+        error: errorResponse.message || '获取限制信息失败',
       };
     }
   }
@@ -162,17 +178,18 @@ export class AiProxyController {
         success: true,
         data: health,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '健康检查失败',
+        error: errorResponse.message || '健康检查失败',
       };
     }
   }
 
   // 管理员接口：获取服务统计
   @Get('admin/stats')
-  async getAdminStats(@Request() req: any) {
+  async getAdminStats(@Request() req: AuthenticatedRequest) {
     const userRole = req.user?.role || 'fan';
 
     if (!['master', 'firstmate'].includes(userRole)) {
@@ -195,17 +212,18 @@ export class AiProxyController {
           timestamp: new Date().toISOString(),
         },
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '获取统计信息失败',
+        error: errorResponse.message || '获取统计信息失败',
       };
     }
   }
 
   // 管理员接口：重置用户限制
   @Post('admin/reset-limits')
-  async resetUserLimits(@Request() req: any, @Body() body: { userId: string }) {
+  async resetUserLimits(@Request() req: AuthenticatedRequest, @Body() body: { userId: string }) {
     const userRole = req.user?.role || 'fan';
 
     if (!['master', 'firstmate'].includes(userRole)) {
@@ -220,19 +238,20 @@ export class AiProxyController {
       await this.rateLimitService.resetUserLimits(body.userId);
       return {
         success: true,
-        message: '用户限制已重置',
+        message: `用户 ${body.userId} 的限制已重置`,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '重置用户限制失败',
+        error: errorResponse.message || '重置限制失败',
       };
     }
   }
 
-  // 管理员接口：清理过期记录
+  // 管理员接口：清理过期数据
   @Post('admin/cleanup')
-  async cleanup(@Request() req: any) {
+  async cleanup(@Request() req: AuthenticatedRequest) {
     const userRole = req.user?.role || 'fan';
 
     if (!['master', 'firstmate'].includes(userRole)) {
@@ -244,15 +263,16 @@ export class AiProxyController {
     }
 
     try {
-      await this.rateLimitService.cleanup();
+      const result = await this.rateLimitService.cleanup();
       return {
         success: true,
-        message: '清理完成',
+        data: result,
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorResponse = error as ErrorResponse;
       return {
         success: false,
-        error: error.message || '清理失败',
+        error: errorResponse.message || '清理失败',
       };
     }
   }
@@ -260,7 +280,7 @@ export class AiProxyController {
   // 获取角色速率限制配置
   private getRateLimitsForRole(userRole: string): Record<string, number> {
     const limits: Record<string, Record<string, number>> = {
-      fan: { minute: 0, hour: 0, day: 0 },
+      fan: { minute: 0, hour: 0, day: 0 }, // Fan不能使用AI
       member: { minute: 5, hour: 50, day: 200 },
       seller: { minute: 10, hour: 100, day: 500 },
       master: { minute: 50, hour: 500, day: 2000 },

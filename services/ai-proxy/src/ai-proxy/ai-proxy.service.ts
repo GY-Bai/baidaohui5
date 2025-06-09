@@ -312,11 +312,11 @@ export class AiProxyService {
   }
 
   // 记录使用情况
-  private async recordUsage(userId: string, userRole: string, usage: any): Promise<void> {
+  private async recordUsage(_userId: string, userRole: string, usage: unknown): Promise<void> {
     try {
       // 这里应该记录到数据库
       console.log('AI使用记录:', {
-        userId,
+        userId: _userId,
         userRole,
         usage,
         timestamp: new Date(),

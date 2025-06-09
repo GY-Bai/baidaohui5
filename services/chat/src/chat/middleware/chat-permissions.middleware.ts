@@ -16,6 +16,11 @@ interface ChatRequest extends Request {
   chatType?: 'channel' | 'private';
 }
 
+interface Message {
+  user_id: string;
+  user_role?: string;
+}
+
 @Injectable()
 export class ChatPermissionsMiddleware implements NestMiddleware {
   private client: MongoClient;
@@ -270,9 +275,9 @@ export class MessageFilterMiddleware implements NestMiddleware {
               const parsedData = JSON.parse(data);
               if (parsedData.messages && Array.isArray(parsedData.messages)) {
                 // 过滤消息：只显示自己和master/firstmate的消息
-                parsedData.messages = parsedData.messages.filter((message: any) => {
+                parsedData.messages = parsedData.messages.filter((message: Message) => {
                   return message.user_id === req.user.sub || 
-                         ['master', 'firstmate'].includes(message.user_role);
+                         ['master', 'firstmate'].includes(message.user_role || '');
                 });
                 data = JSON.stringify(parsedData);
               }

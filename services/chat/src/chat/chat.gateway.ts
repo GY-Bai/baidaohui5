@@ -130,7 +130,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       channelId: string;
       content: string;
       messageType: 'text' | 'image' | 'file';
-      metadata?: any;
+      metadata?: Record<string, unknown>;
     }
   ) {
     const { channelId, content, messageType, metadata } = data;
@@ -272,7 +272,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   // 工具方法
-  private sendToClient(client: AuthenticatedSocket, event: string, data: any) {
+  private sendToClient(client: AuthenticatedSocket, event: string, data: unknown) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify({ event, data }));
     }
@@ -281,7 +281,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private broadcastToChannel(
     channelId: string, 
     event: string, 
-    data: any, 
+    data: unknown, 
     excludeUsers: string[] = []
   ) {
     this.server.clients.forEach((client) => {

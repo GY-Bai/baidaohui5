@@ -18,6 +18,14 @@ import { ChatService } from './chat.service';
 import { MessageService } from './message.service';
 import { ThumbnailService } from './thumbnail.service';
 
+// 定义认证请求接口
+interface AuthenticatedRequest {
+  user?: {
+    id: string;
+    role: string;
+  };
+}
+
 // 简化的认证守卫，实际应该使用JWT
 class AuthGuard {
   canActivate(): boolean {
@@ -36,7 +44,7 @@ export class ChatController {
 
   // 获取用户频道列表
   @Get('channels')
-  async getUserChannels(@Request() req: any) {
+  async getUserChannels(@Request() req: AuthenticatedRequest) {
     const userId = req.user?.id || 'test-user'; // 暂时使用测试用户
     const channels = await this.chatService.getUserChannels(userId);
     
@@ -48,7 +56,7 @@ export class ChatController {
 
   // 创建频道
   @Post('channels')
-  async createChannel(@Request() req: any, @Body() body: {
+  async createChannel(@Request() req: AuthenticatedRequest, @Body() body: {
     name: string;
     type: 'direct' | 'group' | 'general';
     participants: string[];
@@ -70,7 +78,7 @@ export class ChatController {
 
   // 获取或创建私聊频道
   @Post('channels/direct')
-  async getOrCreateDirectChannel(@Request() req: any, @Body() body: {
+  async getOrCreateDirectChannel(@Request() req: AuthenticatedRequest, @Body() body: {
     targetUserId: string;
   }) {
     const userId = req.user?.id || 'test-user';
@@ -98,7 +106,7 @@ export class ChatController {
   // 获取频道消息
   @Get('channels/:channelId/messages')
   async getChannelMessages(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('channelId') channelId: string,
     @Query('limit') limit?: string,
     @Query('before') before?: string,
@@ -141,7 +149,7 @@ export class ChatController {
   // 发送文本消息
   @Post('channels/:channelId/messages')
   async sendMessage(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('channelId') channelId: string,
     @Body() body: {
       content: string;
@@ -187,7 +195,7 @@ export class ChatController {
   @Post('channels/:channelId/upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('channelId') channelId: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
@@ -220,7 +228,7 @@ export class ChatController {
     }
 
     try {
-      let metadata: any;
+      let metadata: Record<string, unknown>;
       let messageType: 'image' | 'file';
 
       if (this.thumbnailService.isImageFile(file.originalname)) {
@@ -278,7 +286,7 @@ export class ChatController {
   // 删除消息
   @Delete('messages/:messageId')
   async deleteMessage(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('messageId') messageId: string,
   ) {
     const userId = req.user?.id || 'test-user';
@@ -294,7 +302,7 @@ export class ChatController {
   // 标记消息已读
   @Put('messages/:messageId/read')
   async markMessageRead(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('messageId') messageId: string,
   ) {
     const userId = req.user?.id || 'test-user';
@@ -310,7 +318,7 @@ export class ChatController {
   // 获取频道统计
   @Get('channels/:channelId/stats')
   async getChannelStats(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('channelId') channelId: string,
   ) {
     const userId = req.user?.id || 'test-user';
@@ -341,7 +349,7 @@ export class ChatController {
   // 搜索消息
   @Get('channels/:channelId/search')
   async searchMessages(
-    @Request() req: any,
+    @Request() req: AuthenticatedRequest,
     @Param('channelId') channelId: string,
     @Query('q') query: string,
     @Query('limit') limit?: string,

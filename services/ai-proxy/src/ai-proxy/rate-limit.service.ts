@@ -84,7 +84,11 @@ export class RateLimitService {
     day: { used: number; limit: number; resetTime: number };
   }> {
     const periods: Array<'minute' | 'hour' | 'day'> = ['minute', 'hour', 'day'];
-    const status: any = {};
+    const status: {
+      minute?: { used: number; limit: number; resetTime: number };
+      hour?: { used: number; limit: number; resetTime: number };
+      day?: { used: number; limit: number; resetTime: number };
+    } = {};
     
     for (const period of periods) {
       const key = `${userId}:${period}`;
@@ -105,7 +109,11 @@ export class RateLimitService {
       }
     }
     
-    return status;
+    return status as {
+      minute: { used: number; limit: number; resetTime: number };
+      hour: { used: number; limit: number; resetTime: number };
+      day: { used: number; limit: number; resetTime: number };
+    };
   }
 
   // 清理过期的限制记录
