@@ -15,9 +15,21 @@ importers:
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.0.0
+        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.0.0
+        version: 6.21.0(eslint@8.57.1)(typescript@5.8.3)
       eslint:
         specifier: ^8.0.0
         version: 8.57.1
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.1.0(eslint@8.57.1)
+      eslint-plugin-prettier:
+        specifier: ^5.0.0
+        version: 5.4.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@8.57.1))(eslint@8.57.1)(prettier@3.5.3)
       prettier:
         specifier: ^3.0.0
         version: 3.5.3

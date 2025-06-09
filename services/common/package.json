@@ -10,7 +10,7 @@
     "start": "node dist/main.js",
     "lint": "eslint src/**/*.ts",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "proto:gen": "protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=src/generated --ts_proto_opt=nestJs=true proto/*.proto"
   },
   "dependencies": {

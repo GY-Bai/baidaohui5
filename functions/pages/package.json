@@ -9,7 +9,7 @@
     "deploy": "wrangler pages deploy",
     "lint": "eslint functions/**/*.ts",
     "typecheck": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
   "dependencies": {

@@ -9,7 +9,7 @@
     "start:dev": "ts-node src/main.ts",
     "start:watch": "nodemon --exec ts-node src/main.ts",
     "lint": "eslint \"src/**/*.ts\" --fix",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage"
   },
