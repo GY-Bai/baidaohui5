@@ -1,0 +1,23 @@
+﻿2025-06-09T02:08:35.2190484Z ##[group]Run pnpm/action-setup@v2
+2025-06-09T02:08:35.2190836Z with:
+2025-06-09T02:08:35.2251487Z   version: 8
+2025-06-09T02:08:35.2251788Z   dest: ~/setup-pnpm
+2025-06-09T02:08:35.2252033Z   run_install: null
+2025-06-09T02:08:35.2252259Z   package_json_file: package.json
+2025-06-09T02:08:35.2252725Z   standalone: false
+2025-06-09T02:08:35.2252928Z ##[endgroup]
+2025-06-09T02:08:35.3151744Z ##[group]Running self-installer...
+2025-06-09T02:08:35.9122153Z Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-06-09T02:08:35.9216778Z Packages: +1
+2025-06-09T02:08:35.9217442Z +
+2025-06-09T02:08:36.4998094Z Packages are hard linked from the content-addressable store to the virtual store.
+2025-06-09T02:08:36.4999191Z   Content-addressable store is at: /home/runner/.local/share/pnpm/store/v3
+2025-06-09T02:08:36.5012694Z   Virtual store is at:             node_modules/.pnpm
+2025-06-09T02:08:36.5270778Z 
+2025-06-09T02:08:36.5271366Z dependencies:
+2025-06-09T02:08:36.5271981Z + pnpm 8.15.9 (10.12.1 is available)
+2025-06-09T02:08:36.5272568Z 
+2025-06-09T02:08:36.5305287Z Done in 1s
+2025-06-09T02:08:36.9127556Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+2025-06-09T02:08:36.9257911Z ##[endgroup]
+2025-06-09T02:08:36.9261732Z Installation Completed!

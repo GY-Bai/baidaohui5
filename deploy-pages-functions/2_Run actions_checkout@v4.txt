@@ -1,0 +1,67 @@
+﻿2025-06-09T02:08:33.8695485Z ##[group]Run actions/checkout@v4
+2025-06-09T02:08:33.8696353Z with:
+2025-06-09T02:08:33.8696769Z   repository: GY-Bai/baidaohui5
+2025-06-09T02:08:33.8697496Z   token: ***
+2025-06-09T02:08:33.8697876Z   ssh-strict: true
+2025-06-09T02:08:33.8698273Z   ssh-user: git
+2025-06-09T02:08:33.8698664Z   persist-credentials: true
+2025-06-09T02:08:33.8699105Z   clean: true
+2025-06-09T02:08:33.8699497Z   sparse-checkout-cone-mode: true
+2025-06-09T02:08:33.8700012Z   fetch-depth: 1
+2025-06-09T02:08:33.8700433Z   fetch-tags: false
+2025-06-09T02:08:33.8700843Z   show-progress: true
+2025-06-09T02:08:33.8701248Z   lfs: false
+2025-06-09T02:08:33.8701609Z   submodules: false
+2025-06-09T02:08:33.8702028Z   set-safe-directory: true
+2025-06-09T02:08:33.8702970Z ##[endgroup]
+2025-06-09T02:08:34.0765637Z Syncing repository: GY-Bai/baidaohui5
+2025-06-09T02:08:34.0767718Z ##[group]Getting Git version info
+2025-06-09T02:08:34.0768720Z Working directory is '/home/runner/work/baidaohui5/baidaohui5'
+2025-06-09T02:08:34.0769889Z [command]/usr/bin/git version
+2025-06-09T02:08:34.0834355Z git version 2.49.0
+2025-06-09T02:08:34.0878500Z ##[endgroup]
+2025-06-09T02:08:34.0893283Z Temporarily overriding HOME='/home/runner/work/_temp/b9ef873d-010a-465d-a6b8-27a92364f367' before making global git config changes
+2025-06-09T02:08:34.0905857Z Adding repository directory to the temporary git global config as a safe directory
+2025-06-09T02:08:34.0907410Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/baidaohui5/baidaohui5
+2025-06-09T02:08:34.0942817Z Deleting the contents of '/home/runner/work/baidaohui5/baidaohui5'
+2025-06-09T02:08:34.0946479Z ##[group]Initializing the repository
+2025-06-09T02:08:34.0950560Z [command]/usr/bin/git init /home/runner/work/baidaohui5/baidaohui5
+2025-06-09T02:08:34.1057566Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-06-09T02:08:34.1058732Z hint: is subject to change. To configure the initial branch name to use in all
+2025-06-09T02:08:34.1059774Z hint: of your new repositories, which will suppress this warning, call:
+2025-06-09T02:08:34.1060595Z hint:
+2025-06-09T02:08:34.1061117Z hint: 	git config --global init.defaultBranch <name>
+2025-06-09T02:08:34.1061757Z hint:
+2025-06-09T02:08:34.1062348Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-06-09T02:08:34.1063606Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-06-09T02:08:34.1064405Z hint:
+2025-06-09T02:08:34.1064828Z hint: 	git branch -m <name>
+2025-06-09T02:08:34.1070487Z Initialized empty Git repository in /home/runner/work/baidaohui5/baidaohui5/.git/
+2025-06-09T02:08:34.1081509Z [command]/usr/bin/git remote add origin https://github.com/GY-Bai/baidaohui5
+2025-06-09T02:08:34.1118600Z ##[endgroup]
+2025-06-09T02:08:34.1119418Z ##[group]Disabling automatic garbage collection
+2025-06-09T02:08:34.1122935Z [command]/usr/bin/git config --local gc.auto 0
+2025-06-09T02:08:34.1151978Z ##[endgroup]
+2025-06-09T02:08:34.1152950Z ##[group]Setting up auth
+2025-06-09T02:08:34.1159159Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-06-09T02:08:34.1189277Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-06-09T02:08:34.1605606Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-06-09T02:08:34.1638508Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-06-09T02:08:34.1863098Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-06-09T02:08:34.1898928Z ##[endgroup]
+2025-06-09T02:08:34.1900729Z ##[group]Fetching the repository
+2025-06-09T02:08:34.1909469Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +94d9567d843c5f2b1b068c32dbd813cc9ac5242d:refs/remotes/origin/main
+2025-06-09T02:08:34.5045540Z From https://github.com/GY-Bai/baidaohui5
+2025-06-09T02:08:34.5047441Z  * [new ref]         94d9567d843c5f2b1b068c32dbd813cc9ac5242d -> origin/main
+2025-06-09T02:08:34.5077543Z ##[endgroup]
+2025-06-09T02:08:34.5079362Z ##[group]Determining the checkout info
+2025-06-09T02:08:34.5080815Z ##[endgroup]
+2025-06-09T02:08:34.5084989Z [command]/usr/bin/git sparse-checkout disable
+2025-06-09T02:08:34.5127940Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-06-09T02:08:34.5158549Z ##[group]Checking out the ref
+2025-06-09T02:08:34.5163391Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-06-09T02:08:34.5514756Z Switched to a new branch 'main'
+2025-06-09T02:08:34.5516584Z branch 'main' set up to track 'origin/main'.
+2025-06-09T02:08:34.5524232Z ##[endgroup]
+2025-06-09T02:08:34.5564580Z [command]/usr/bin/git log -1 --format=%H
+2025-06-09T02:08:34.5590688Z 94d9567d843c5f2b1b068c32dbd813cc9ac5242d

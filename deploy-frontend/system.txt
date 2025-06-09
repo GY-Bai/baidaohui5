@@ -1,0 +1,5 @@
+2025-06-09T02:08:23.6785675Z Requested labels: ubuntu-latest
+2025-06-09T02:08:23.6785675Z Job defined at: GY-Bai/baidaohui5/.github/workflows/deploy.yml@refs/heads/main
+2025-06-09T02:08:23.6785675Z Waiting for a runner to pick up this job...
+2025-06-09T02:08:23.8318494Z Job is waiting for a hosted runner to come online.
+2025-06-09T02:08:23.8318526Z Job is about to start running on the hosted runner: GitHub Actions 1000000021

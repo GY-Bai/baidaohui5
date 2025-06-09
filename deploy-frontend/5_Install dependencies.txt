@@ -1,0 +1,56 @@
+﻿2025-06-09T02:08:36.2376063Z ##[group]Run cd apps/web/apps/web
+2025-06-09T02:08:36.2376426Z [36;1mcd apps/web/apps/web[0m
+2025-06-09T02:08:36.2376663Z [36;1mpnpm install[0m
+2025-06-09T02:08:36.2445530Z shell: /usr/bin/bash -e {0}
+2025-06-09T02:08:36.2445815Z env:
+2025-06-09T02:08:36.2446061Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2025-06-09T02:08:36.2446361Z ##[endgroup]
+2025-06-09T02:08:36.6989595Z Scope: all 14 workspace projects
+2025-06-09T02:08:36.7856921Z ../..                                    |  WARN  Ignoring not compatible lockfile at /home/runner/work/baidaohui5/baidaohui5/apps/web/pnpm-lock.yaml
+2025-06-09T02:08:36.9411344Z ../..                                    | Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-06-09T02:08:37.8441696Z  WARN  deprecated @edge-csrf/nextjs@2.5.3-cloudflare-rc1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+2025-06-09T02:08:37.9905551Z ../..                                    | Progress: resolved 39, reused 0, downloaded 28, added 0
+2025-06-09T02:08:38.0146846Z  WARN  deprecated @types/qrcode.react@3.0.0: This is a stub types definition. qrcode.react provides its own type definitions, so you do not need this installed.
+2025-06-09T02:08:39.0683384Z ../..                                    | Progress: resolved 63, reused 0, downloaded 59, added 0
+2025-06-09T02:08:40.0681854Z ../..                                    | Progress: resolved 107, reused 0, downloaded 97, added 0
+2025-06-09T02:08:41.0821906Z ../..                                    | Progress: resolved 187, reused 0, downloaded 169, added 0
+2025-06-09T02:08:42.0837030Z ../..                                    | Progress: resolved 231, reused 0, downloaded 205, added 0
+2025-06-09T02:08:43.0838324Z ../..                                    | Progress: resolved 291, reused 0, downloaded 266, added 0
+2025-06-09T02:08:44.0871848Z ../..                                    | Progress: resolved 384, reused 0, downloaded 334, added 0
+2025-06-09T02:08:45.0881704Z ../..                                    | Progress: resolved 520, reused 0, downloaded 448, added 0
+2025-06-09T02:08:46.1084759Z ../..                                    | Progress: resolved 641, reused 0, downloaded 564, added 0
+2025-06-09T02:08:47.1088068Z ../..                                    | Progress: resolved 769, reused 0, downloaded 674, added 0
+2025-06-09T02:08:48.1082754Z ../..                                    | Progress: resolved 949, reused 0, downloaded 829, added 0
+2025-06-09T02:08:48.9347456Z  WARN  5 deprecated subdependencies found: glob@7.2.3, inflight@1.0.6, lodash.get@4.4.2, node-domexception@1.0.0, rimraf@3.0.2
+2025-06-09T02:08:49.0263281Z ../..                                    |    +1016 ++++++++++++++++++++++++++++
+2025-06-09T02:08:49.1103086Z ../..                                    | Progress: resolved 1066, reused 0, downloaded 986, added 0
+2025-06-09T02:08:50.1124419Z ../..                                    | Progress: resolved 1066, reused 0, downloaded 1004, added 734
+2025-06-09T02:08:50.6336457Z ../..                                    | Progress: resolved 1066, reused 0, downloaded 1004, added 1016, done
+2025-06-09T02:08:50.7718973Z  WARN  Failed to create bin at /home/runner/work/baidaohui5/baidaohui5/apps/web/node_modules/.pnpm/node_modules/.bin/supabase. ENOENT: no such file or directory, open '/home/runner/work/baidaohui5/baidaohui5/apps/web/node_modules/.pnpm/node_modules/supabase/bin/supabase'
+2025-06-09T02:08:50.8249648Z  WARN  Failed to create bin at /home/runner/work/baidaohui5/baidaohui5/apps/web/node_modules/.pnpm/supabase@2.24.3/node_modules/supabase/node_modules/.bin/supabase. ENOENT: no such file or directory, open '/home/runner/work/baidaohui5/baidaohui5/apps/web/node_modules/.pnpm/supabase@2.24.3/node_modules/supabase/bin/supabase'
+2025-06-09T02:08:50.8283803Z .../node_modules/supabase postinstall$ node scripts/postinstall.js
+2025-06-09T02:08:50.8850185Z .../node_modules/core-js-pure postinstall$ node -e "try{require('./postinstall')}catch(e){}"
+2025-06-09T02:08:50.9340666Z .../node_modules/core-js-pure postinstall: Done
+2025-06-09T02:08:50.9801000Z .../node_modules/supabase postinstall: Downloading https://github.com/supabase/cli/releases/download/v2.24.3/supabase_2.24.3_checksums.txt
+2025-06-09T02:08:51.1600236Z .../node_modules/supabase postinstall: Downloading https://github.com/supabase/cli/releases/download/v2.24.3/supabase_linux_amd64.tar.gz
+2025-06-09T02:08:51.6118922Z .../node_modules/supabase postinstall: Checksum verified.
+2025-06-09T02:08:51.6146074Z .../node_modules/supabase postinstall: Installed Supabase CLI successfully
+2025-06-09T02:08:51.6219186Z .../node_modules/supabase postinstall: Done
+2025-06-09T02:08:51.7195586Z .../node_modules/@tailwindcss/oxide postinstall$ node ./scripts/install.js
+2025-06-09T02:08:51.7992310Z .../node_modules/@tailwindcss/oxide postinstall: Done
+2025-06-09T02:08:51.8133621Z .../sharp@0.34.2/node_modules/sharp install$ node install/check
+2025-06-09T02:08:51.8136142Z .../node_modules/unrs-resolver postinstall$ napi-postinstall unrs-resolver 1.7.11 check
+2025-06-09T02:08:51.8711286Z .../node_modules/unrs-resolver postinstall: Done
+2025-06-09T02:08:51.9166685Z .../sharp@0.34.2/node_modules/sharp install: Done
+2025-06-09T02:08:53.2930226Z ../.. preinstall$ pnpm run --filter scripts requirements
+2025-06-09T02:08:53.7391211Z ../.. preinstall: > scripts@0.1.0 requirements /home/runner/work/baidaohui5/baidaohui5/apps/web/tooling/scripts
+2025-06-09T02:08:53.7394418Z ../.. preinstall: > node ./src/requirements.mjs
+2025-06-09T02:08:53.7673370Z ../.. preinstall: [32mYou are running Node 20.19.2.[0m
+2025-06-09T02:08:53.9433588Z ../.. preinstall: [31mYou are running pnpm 8.15.9. Makerkit requires pnpm >=9.12.0.[0m
+2025-06-09T02:08:53.9474569Z ../.. preinstall: /home/runner/work/baidaohui5/baidaohui5/apps/web/tooling/scripts:
+2025-06-09T02:08:53.9482088Z ../.. preinstall:  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  scripts@0.1.0 requirements: `node ./src/requirements.mjs`
+2025-06-09T02:08:53.9483090Z ../.. preinstall: Exit status 1
+2025-06-09T02:08:53.9486142Z ../.. preinstall:  WARN   Local package.json exists, but node_modules missing, did you mean to install?
+2025-06-09T02:08:53.9671450Z ../.. preinstall: Failed
+2025-06-09T02:08:53.9682133Z  ELIFECYCLE  Command failed with exit code 1.
+2025-06-09T02:08:54.0936506Z ##[error]Process completed with exit code 1.

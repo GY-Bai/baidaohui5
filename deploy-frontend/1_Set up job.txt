@@ -1,0 +1,37 @@
+﻿2025-06-09T02:08:31.8297423Z Current runner version: '2.325.0'
+2025-06-09T02:08:31.8334844Z ##[group]Operating System
+2025-06-09T02:08:31.8335875Z Ubuntu
+2025-06-09T02:08:31.8336746Z 24.04.2
+2025-06-09T02:08:31.8337574Z LTS
+2025-06-09T02:08:31.8338514Z ##[endgroup]
+2025-06-09T02:08:31.8339567Z ##[group]Runner Image
+2025-06-09T02:08:31.8340498Z Image: ubuntu-24.04
+2025-06-09T02:08:31.8341313Z Version: 20250602.3.0
+2025-06-09T02:08:31.8343031Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20250602.3/images/ubuntu/Ubuntu2404-Readme.md
+2025-06-09T02:08:31.8345558Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20250602.3
+2025-06-09T02:08:31.8347132Z ##[endgroup]
+2025-06-09T02:08:31.8348021Z ##[group]Runner Image Provisioner
+2025-06-09T02:08:31.8349236Z 2.0.437.1
+2025-06-09T02:08:31.8350034Z ##[endgroup]
+2025-06-09T02:08:31.8352042Z ##[group]GITHUB_TOKEN Permissions
+2025-06-09T02:08:31.8354789Z Contents: read
+2025-06-09T02:08:31.8355727Z Metadata: read
+2025-06-09T02:08:31.8356542Z Packages: read
+2025-06-09T02:08:31.8357675Z ##[endgroup]
+2025-06-09T02:08:31.8361204Z Secret source: Actions
+2025-06-09T02:08:31.8362191Z Prepare workflow directory
+2025-06-09T02:08:31.8814973Z Prepare all required actions
+2025-06-09T02:08:31.8869773Z Getting action download info
+2025-06-09T02:08:32.2524168Z ##[group]Download immutable action package 'actions/checkout@v4'
+2025-06-09T02:08:32.2525229Z Version: 4.2.2
+2025-06-09T02:08:32.2526345Z Digest: sha256:ccb2698953eaebd21c7bf6268a94f9c26518a7e38e27e0b83c1fe1ad049819b1
+2025-06-09T02:08:32.2527622Z Source commit SHA: 11bd71901bbe5b1630ceea73d27597364c9af683
+2025-06-09T02:08:32.2528583Z ##[endgroup]
+2025-06-09T02:08:32.3547968Z ##[group]Download immutable action package 'actions/setup-node@v4'
+2025-06-09T02:08:32.3549142Z Version: 4.4.0
+2025-06-09T02:08:32.3549869Z Digest: sha256:9427cefe82346e992fb5b949e3569b39d537ae41aa3086483b14eceebfc16bc1
+2025-06-09T02:08:32.3550983Z Source commit SHA: 49933ea5288caeca8642d1e84afbd3f7d6820020
+2025-06-09T02:08:32.3551711Z ##[endgroup]
+2025-06-09T02:08:32.4554462Z Download action repository 'pnpm/action-setup@v2' (SHA:eae0cfeb286e66ffb5155f1a79b90583a127a68b)
+2025-06-09T02:08:32.7547504Z Download action repository 'cloudflare/pages-action@v1' (SHA:f0a1cd58cd66095dee69bfa18fa5efd1dde93bca)
+2025-06-09T02:08:33.0112178Z Complete job name: deploy-frontend

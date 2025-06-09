@@ -1,0 +1,62 @@
+﻿2025-06-09T02:08:36.9355983Z ##[group]Run cd functions/pages
+2025-06-09T02:08:36.9356337Z [36;1mcd functions/pages[0m
+2025-06-09T02:08:36.9356582Z [36;1mpnpm install[0m
+2025-06-09T02:08:36.9356785Z [36;1mpnpm build[0m
+2025-06-09T02:08:36.9426877Z shell: /usr/bin/bash -e {0}
+2025-06-09T02:08:36.9427161Z env:
+2025-06-09T02:08:36.9427390Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+2025-06-09T02:08:36.9427665Z ##[endgroup]
+2025-06-09T02:08:37.3947197Z Scope: all 13 workspace projects
+2025-06-09T02:08:37.4811372Z ../..                                    |  WARN  Ignoring not compatible lockfile at /home/runner/work/baidaohui5/baidaohui5/pnpm-lock.yaml
+2025-06-09T02:08:37.6710264Z ../..                                    | Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-06-09T02:08:37.8168478Z ../..                                    |  WARN  deprecated eslint@8.57.1
+2025-06-09T02:08:38.6725297Z ../..                                    | Progress: resolved 35, reused 0, downloaded 29, added 0
+2025-06-09T02:08:39.7330261Z ../..                                    | Progress: resolved 59, reused 0, downloaded 51, added 0
+2025-06-09T02:08:40.7375583Z ../..                                    | Progress: resolved 125, reused 0, downloaded 113, added 0
+2025-06-09T02:08:41.7415778Z ../..                                    | Progress: resolved 223, reused 0, downloaded 196, added 0
+2025-06-09T02:08:42.7556069Z ../..                                    | Progress: resolved 300, reused 0, downloaded 274, added 0
+2025-06-09T02:08:43.7622321Z ../..                                    | Progress: resolved 438, reused 0, downloaded 394, added 0
+2025-06-09T02:08:44.7616283Z ../..                                    | Progress: resolved 572, reused 0, downloaded 519, added 0
+2025-06-09T02:08:45.7621627Z ../..                                    | Progress: resolved 716, reused 0, downloaded 627, added 0
+2025-06-09T02:08:46.7617174Z ../..                                    | Progress: resolved 856, reused 0, downloaded 765, added 0
+2025-06-09T02:08:47.7628933Z ../..                                    | Progress: resolved 1062, reused 0, downloaded 929, added 0
+2025-06-09T02:08:48.7631411Z ../..                                    | Progress: resolved 1170, reused 0, downloaded 1025, added 0
+2025-06-09T02:08:49.8102655Z ../..                                    | Progress: resolved 1333, reused 0, downloaded 1181, added 0
+2025-06-09T02:08:50.8134463Z ../..                                    | Progress: resolved 1454, reused 0, downloaded 1339, added 0
+2025-06-09T02:08:51.2176140Z  WARN  7 deprecated subdependencies found: @humanwhocodes/config-array@0.13.0, @humanwhocodes/object-schema@2.0.3, glob@7.2.3, inflight@1.0.6, lodash.get@4.4.2, rimraf@3.0.2, superagent@8.1.2
+2025-06-09T02:08:51.3215264Z ../..                                    |    +1393 ++++++++++++++++++++++++++++
+2025-06-09T02:08:51.8126694Z ../..                                    | Progress: resolved 1456, reused 0, downloaded 1387, added 337
+2025-06-09T02:08:52.8144331Z ../..                                    | Progress: resolved 1456, reused 0, downloaded 1387, added 1388
+2025-06-09T02:08:53.0195099Z ../..                                    | Progress: resolved 1456, reused 0, downloaded 1387, added 1393, done
+2025-06-09T02:08:53.3372744Z .../node_modules/protobufjs postinstall$ node scripts/postinstall
+2025-06-09T02:08:53.3556896Z .../node_modules/core-js-pure postinstall$ node -e "try{require('./postinstall')}catch(e){}"
+2025-06-09T02:08:53.3698084Z .../node_modules/@nestjs/core postinstall$ opencollective || exit 0
+2025-06-09T02:08:53.3846231Z .../node_modules/protobufjs postinstall: Done
+2025-06-09T02:08:53.3970464Z .../node_modules/core-js-pure postinstall: Done
+2025-06-09T02:08:53.4528910Z .../node_modules/@nestjs/core postinstall: Done
+2025-06-09T02:08:53.6921346Z .../esbuild@0.25.4/node_modules/esbuild postinstall$ node install.js
+2025-06-09T02:08:53.6924671Z .../node_modules/workerd postinstall$ node install.js
+2025-06-09T02:08:53.7545400Z .../esbuild@0.25.4/node_modules/esbuild postinstall: Done
+2025-06-09T02:08:53.7904367Z .../node_modules/workerd postinstall: Done
+2025-06-09T02:08:54.0247155Z .../sharp@0.33.5/node_modules/sharp install$ node install/check
+2025-06-09T02:08:54.1014300Z .../sharp@0.33.5/node_modules/sharp install: Done
+2025-06-09T02:08:54.1193992Z .../node_modules/unrs-resolver postinstall$ napi-postinstall unrs-resolver 1.7.11 check
+2025-06-09T02:08:54.1198037Z .../sharp@0.32.6/node_modules/sharp install$ (node install/libvips && node install/dll-copy && prebuild-install) || (node install/can-compile && node-gyp rebuild && node install/dll-copy)
+2025-06-09T02:08:54.1726724Z .../node_modules/unrs-resolver postinstall: Done
+2025-06-09T02:08:54.2175920Z .../sharp@0.32.6/node_modules/sharp install: sharp: Downloading https://github.com/lovell/sharp-libvips/releases/download/v8.14.5/libvips-8.14.5-linux-x64.tar.br
+2025-06-09T02:08:54.6211997Z .../sharp@0.32.6/node_modules/sharp install: sharp: Integrity check passed for linux-x64
+2025-06-09T02:08:54.8677687Z .../sharp@0.32.6/node_modules/sharp install: Done
+2025-06-09T02:08:54.9300699Z .../node_modules/@nestjs/core postinstall$ opencollective || exit 0
+2025-06-09T02:08:55.0003610Z .../node_modules/@nestjs/core postinstall: Done
+2025-06-09T02:08:58.7846520Z ../../apps/web preinstall$ pnpm run --filter scripts requirements
+2025-06-09T02:08:59.2342370Z ../../apps/web preinstall: > scripts@0.1.0 requirements /home/runner/work/baidaohui5/baidaohui5/apps/web/tooling/scripts
+2025-06-09T02:08:59.2346322Z ../../apps/web preinstall: > node ./src/requirements.mjs
+2025-06-09T02:08:59.2638078Z ../../apps/web preinstall: [32mYou are running Node 20.19.2.[0m
+2025-06-09T02:08:59.4426832Z ../../apps/web preinstall: [31mYou are running pnpm 8.15.9. Makerkit requires pnpm >=9.12.0.[0m
+2025-06-09T02:08:59.4475148Z ../../apps/web preinstall: /home/runner/work/baidaohui5/baidaohui5/apps/web/tooling/scripts:
+2025-06-09T02:08:59.4484872Z ../../apps/web preinstall:  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  scripts@0.1.0 requirements: `node ./src/requirements.mjs`
+2025-06-09T02:08:59.4485806Z ../../apps/web preinstall: Exit status 1
+2025-06-09T02:08:59.4488853Z ../../apps/web preinstall:  WARN   Local package.json exists, but node_modules missing, did you mean to install?
+2025-06-09T02:08:59.4671335Z ../../apps/web preinstall: Failed
+2025-06-09T02:08:59.4684340Z  ELIFECYCLE  Command failed with exit code 1.
+2025-06-09T02:08:59.5783691Z ##[error]Process completed with exit code 1.
