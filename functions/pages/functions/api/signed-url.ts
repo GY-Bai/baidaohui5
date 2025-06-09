@@ -221,8 +221,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         },
       }),
       {
-        aws: { signQuery: true },
-        expiresIn,
+        aws: { signQuery: true }
       }
     );
 

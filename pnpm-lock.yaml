@@ -84,22 +84,34 @@ importers:
 
   functions/pages:
     dependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20241218.0
-        version: 4.20250607.0
+      aws4fetch:
+        specifier: ^1.0.18
+        version: 1.0.20
+      hono:
+        specifier: ^4.5.3
+        version: 4.7.11
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
       mongodb:
-        specifier: ^6.0.0
+        specifier: ^6.8.0
         version: 6.17.0(socks@2.8.4)
       qrcode:
         specifier: ^1.5.3
         version: 1.5.4
     devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240725.0
+        version: 4.20250607.0
+      '@hono/node-server':
+        specifier: ^1.12.0
+        version: 1.14.4(hono@4.7.11)
       '@kit/eslint-config':
         specifier: workspace:*
         version: link:../../apps/web/tooling/eslint
+      '@kit/prettier-config':
+        specifier: workspace:*
+        version: link:../../apps/web/tooling/prettier
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.14
@@ -1149,6 +1161,12 @@ packages:
     resolution: {integrity: sha512-tMXdRCfYVixjuFK+Hk0Q1s38gV9zDiDJfWL3h1rv4Qc39oILCu1TRTDt7+fGUI8K4G1Fj125Hx/ru3azECWTyQ==}
     engines: {node: '>=6'}
     hasBin: true
+
+  '@hono/node-server@1.14.4':
+    resolution: {integrity: sha512-DnxpshhYewr2q9ZN8ez/M5mmc3sucr8CT1sIgIy1bkeUXut9XWDkqHoFHRhWIQgkYnKpVRxunyhK7WzpJeJ6qQ==}
+    engines: {node: '>=18.14.1'}
+    peerDependencies:
+      hono: ^4
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -2386,6 +2404,9 @@ packages:
 
   avvio@8.4.0:
     resolution: {integrity: sha512-CDSwaxINFy59iNwhYnkvALBwZiTydGkOecZyPkqBpABYR1KqGEsET0VOOYDwtleZSUIdeY36DC2bSZ24CO1igA==}
+
+  aws4fetch@1.0.20:
+    resolution: {integrity: sha512-/djoAN709iY65ETD6LKCtyyEI04XIBP5xVvfmNxsEP0uJB5tyaGBztSryRr4HqMStr9R06PisQE7m9zDTXKu6g==}
 
   axe-core@4.10.3:
     resolution: {integrity: sha512-Xm7bpRXnDSX2YE2YFfBk2FnF0ep6tmG7xPh8iHee8MIcrgq762Nkce856dYtJYLkuIoYZvGfTs/PbZhideTcEg==}
@@ -3637,6 +3658,10 @@ packages:
 
   help-me@5.0.0:
     resolution: {integrity: sha512-7xgomUX6ADmcYzFik0HzAxh/73YlKR9bmFzf51CZwR+b6YtzU2m0u49hQCqV6SvlqIqsaxovfwdvbnsw3b/zpg==}
+
+  hono@4.7.11:
+    resolution: {integrity: sha512-rv0JMwC0KALbbmwJDEnxvQCeJh+xbS3KEWW5PC9cMJ08Ur9xgatI0HmtgYZfOdOSOeYsp5LO2cOhdI8cLEbDEQ==}
+    engines: {node: '>=16.9.0'}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -6791,6 +6816,10 @@ snapshots:
       protobufjs: 7.5.3
       yargs: 17.7.2
 
+  '@hono/node-server@1.14.4(hono@4.7.11)':
+    dependencies:
+      hono: 4.7.11
+
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.6':
@@ -8289,6 +8318,8 @@ snapshots:
     dependencies:
       '@fastify/error': 3.4.1
       fastq: 1.19.1
+
+  aws4fetch@1.0.20: {}
 
   axe-core@4.10.3: {}
 
@@ -9818,6 +9849,8 @@ snapshots:
   helmet@7.2.0: {}
 
   help-me@5.0.0: {}
+
+  hono@4.7.11: {}
 
   html-escaper@2.0.2: {}
 

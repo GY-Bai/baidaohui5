@@ -12,14 +12,6 @@ interface Env {
   SUPABASE_ANON_KEY: string;
 }
 
-interface PagesContext {
-  request: Request;
-  env: Env;
-  waitUntil: (promise: Promise<any>) => void;
-}
-
-type PagesFunction<Env = any> = (context: PagesContext) => Promise<Response> | Response;
-
 interface Product {
   id: string;
   name: string;
