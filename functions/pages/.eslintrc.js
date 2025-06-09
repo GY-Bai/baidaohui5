@@ -1,8 +1,8 @@
-export default {
+module.exports = {
   root: true,
   extends: [
     "eslint:recommended",
-    "@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended",
   ],
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
@@ -10,7 +10,7 @@ export default {
     ecmaVersion: 2022,
     sourceType: "module",
     project: './tsconfig.json',
-    tsconfigRootDir: import.meta.dirname,
+    tsconfigRootDir: __dirname,
   },
   env: {
     node: true,
