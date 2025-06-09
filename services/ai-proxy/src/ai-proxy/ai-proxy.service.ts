@@ -312,11 +312,11 @@ export class AiProxyService {
   }
 
   // 记录使用情况
-  private async recordUsage(_userId: string, userRole: string, usage: unknown): Promise<void> {
+  private async recordUsage(userId: string, userRole: string, usage: unknown): Promise<void> {
     try {
       // 这里应该记录到数据库
       console.log('AI使用记录:', {
-        userId: _userId,
+        userId,
         userRole,
         usage,
         timestamp: new Date(),
@@ -327,7 +327,7 @@ export class AiProxyService {
   }
 
   // 获取用户使用统计
-  async getUserUsageStats(userId: string): Promise<{
+  async getUserUsageStats(_userId: string): Promise<{
     today: { requests: number; tokens: number };
     thisMonth: { requests: number; tokens: number };
     total: { requests: number; tokens: number };

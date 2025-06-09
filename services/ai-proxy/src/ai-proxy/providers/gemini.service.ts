@@ -86,12 +86,12 @@ export class GeminiService {
           for (const line of lines) {
             if (line.trim()) {
               try {
-                const parsed = JSON.parse(line);
-                const content = parsed.candidates?.[0]?.content?.parts?.[0]?.text;
+                const parsed: unknown = JSON.parse(line);
+                const content = (parsed as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> } )?.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (content) {
                   yield content;
                 }
-              } catch (e) {
+              } catch {
                 // 忽略解析错误
               }
             }
@@ -122,9 +122,9 @@ export class GeminiService {
   }
 
   // 转换OpenAI格式消息到Gemini格式
-  private convertToGeminiFormat(messages: ChatMessage[]): any[] {
-    const geminiMessages: any[] = [];
-    
+  private convertToGeminiFormat(messages: ChatMessage[]): Array<{ role: string; parts: Array<{ text: string }> }> {
+    const geminiMessages: Array<{ role: string; parts: Array<{ text: string }> }> = [];
+
     for (const message of messages) {
       if (message.role === 'system') {
         // Gemini没有system角色，将其转换为user消息
@@ -149,7 +149,7 @@ export class GeminiService {
   }
 
   // 转换Gemini响应到OpenAI格式
-  private convertToOpenAIFormat(geminiResponse: any, model: string): ChatResponse {
+  private convertToOpenAIFormat(geminiResponse: { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> }; finishReason?: string }>; usageMetadata?: { promptTokenCount?: number; candidatesTokenCount?: number; totalTokenCount?: number } }, model: string): ChatResponse {
     const content = geminiResponse.candidates?.[0]?.content?.parts?.[0]?.text || '';
     const finishReason = geminiResponse.candidates?.[0]?.finishReason || 'stop';
 

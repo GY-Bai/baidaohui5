@@ -54,7 +54,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: baidaohui5
-          directory: apps/web/out
+          directory: apps/web/apps/web/out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-pages-functions:

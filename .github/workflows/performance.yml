@@ -28,9 +28,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup k6
-        uses: grafana/setup-k6-action@v1
+        uses: grafana/setup-k6-action@v2
         with:
-          k6-version: 'latest'
+          k6-version: '0.45.0'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2

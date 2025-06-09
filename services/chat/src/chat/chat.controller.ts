@@ -275,7 +275,7 @@ export class ChatController {
         success: true,
         data: { message },
       };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         error: '文件上传失败',

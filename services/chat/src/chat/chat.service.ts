@@ -155,7 +155,6 @@ export class ChatService {
     if (channel.type === 'direct') {
       // Member只能与Master私聊
       if (userRole === 'member') {
-        const otherParticipant = channel.participants.find(p => p !== userId);
         // 这里需要查询其他参与者的角色，暂时简化处理
         return channel.participants.includes(userId);
       }

@@ -85,7 +85,7 @@ export class SuanliService {
                 if (content) {
                   yield content;
                 }
-              } catch (e) {
+              } catch {
                 // 忽略解析错误
               }
             }
