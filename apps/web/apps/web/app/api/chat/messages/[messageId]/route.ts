@@ -8,7 +8,7 @@ const supabase = createClient(
 
 // 删除/撤回消息
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { messageId: string } }
 ) {
   try {
@@ -87,7 +87,7 @@ export async function DELETE(
 
 // 编辑消息
 export async function PUT(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { messageId: string } }
 ) {
   try {

@@ -9,7 +9,7 @@ const supabase = createClient(
 const AI_PROXY_URL = process.env.AI_PROXY_URL || 'http://localhost:3003';
 
 // AI聊天接口
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
 }
 
 // 获取可用模型列表
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

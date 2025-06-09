@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 // 标记频道已读
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

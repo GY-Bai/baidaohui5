@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@kit/supabase/server-client';
 
 export async function PUT(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { userId: string } }
 ) {
   try {

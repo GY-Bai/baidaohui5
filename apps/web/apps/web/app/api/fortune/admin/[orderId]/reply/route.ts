@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@kit/supabase/server-client';
 
 export async function POST(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { orderId: string } }
 ) {
   try {

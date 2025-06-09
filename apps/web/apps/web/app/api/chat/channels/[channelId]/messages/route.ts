@@ -8,7 +8,7 @@ const supabase = createClient(
 
 // 获取频道消息
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { channelId: string } }
 ) {
   try {
@@ -109,7 +109,7 @@ export async function GET(
 
 // 发送消息
 export async function POST(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { channelId: string } }
 ) {
   try {

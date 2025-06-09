@@ -7,7 +7,7 @@ const supabase = createClient(
 );
 
 // 获取用户的频道列表
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
 }
 
 // 创建新频道
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

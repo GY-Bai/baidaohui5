@@ -9,7 +9,7 @@ const supabase = createClient(
 const AI_PROXY_URL = process.env.AI_PROXY_URL || 'http://localhost:3003';
 
 // 获取用户AI使用统计
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

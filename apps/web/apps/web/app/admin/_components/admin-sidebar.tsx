@@ -6,7 +6,6 @@ import { cn } from '@kit/ui/utils';
 import { 
   LayoutDashboard, 
   Users, 
-  ShoppingCart, 
   Star,
   Settings,
   Home,
@@ -14,7 +13,7 @@ import {
   Wand2,
   Key,
   MessageSquare,
-  UserPlus
+  UserPlus,
 } from 'lucide-react';
 
 const navigation = [
