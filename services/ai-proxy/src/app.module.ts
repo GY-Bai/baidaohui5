@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { AiProxyModule } from './ai-proxy/ai-proxy.module';
-import { HealthModule } from '../common/src/health/health.module';
+import { HealthModule } from '../../common/src/health/health.module';
 
 @Module({
   imports: [

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { MongoClient, ObjectId } from 'mongodb';
 import QRCode from 'qrcode';
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'node:crypto';
 
 // Cloudflare Pages Function types
 interface PagesContext<Env = any> {

@@ -20,6 +20,8 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-require-imports": "off",
+    "no-unused-vars": "off",
+    "no-undef": "off",
   },
   ignorePatterns: [
     "node_modules/",

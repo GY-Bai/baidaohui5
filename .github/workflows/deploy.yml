@@ -29,7 +29,7 @@ jobs:
           
       - name: Build frontend
         run: |
-          cd apps/web/apps/web
+          cd apps/web
           pnpm build
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
@@ -51,7 +51,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: baidaohui5
-          directory: apps/web/apps/web/out
+          directory: apps/web/out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
   deploy-pages-functions:
