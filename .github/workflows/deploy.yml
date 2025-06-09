@@ -35,7 +35,16 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_PRODUCT_NAME: 百刀会
+          NEXT_PUBLIC_SITE_TITLE: 百刀会 - 专业的刀具交流平台
+          NEXT_PUBLIC_SITE_DESCRIPTION: 百刀会是一个专业的刀具爱好者交流平台，提供刀具展示、交易和社区功能
+          NEXT_PUBLIC_SITE_URL: https://baidaohui.com
+          NEXT_PUBLIC_DEFAULT_LOCALE: zh
+          NEXT_PUBLIC_DEFAULT_THEME_MODE: system
+          NEXT_PUBLIC_THEME_COLOR: "#000000"
+          NEXT_PUBLIC_THEME_COLOR_DARK: "#ffffff"
           AI_PROXY_URL: https://gateway.baidaohui.com
+          NEXT_PUBLIC_STREAM_CHAT_API_KEY: demo-api-key
           
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
