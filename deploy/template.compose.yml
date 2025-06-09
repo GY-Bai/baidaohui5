@@ -20,7 +20,7 @@ services:
     mem_limit: 512m
     restart: unless-stopped
     networks:
-      - baidaohui-network
+      - baidaohui5-network
 
   # Fortune Service - 水牛城VPS (主要处理后台重任务)
   fortune-service:
@@ -42,7 +42,7 @@ services:
     mem_limit: 256m
     restart: unless-stopped
     networks:
-      - baidaohui-network
+      - baidaohui5-network
 
   # Chat Service - 圣何塞VPS (实时交互服务)
   chat-service:
@@ -67,7 +67,7 @@ services:
     mem_limit: 256m
     restart: unless-stopped
     networks:
-      - baidaohui-network
+      - baidaohui5-network
 
   # AI Proxy Service - 圣何塞VPS (快速响应服务)
   ai-proxy:
@@ -94,7 +94,7 @@ services:
     mem_limit: 256m
     restart: unless-stopped
     networks:
-      - baidaohui-network
+      - baidaohui5-network
 
   # Auth Service - 圣何塞VPS (认证服务)
   auth-service:
@@ -115,7 +115,7 @@ services:
     mem_limit: 128m
     restart: unless-stopped
     networks:
-      - baidaohui-network
+      - baidaohui5-network
 
   # Nginx Reverse Proxy
   nginx:
@@ -135,10 +135,10 @@ services:
     mem_limit: 64m
     restart: unless-stopped
     networks:
-      - baidaohui-network
+      - baidaohui5-network
 
 networks:
-  baidaohui-network:
+  baidaohui5-network:
     driver: bridge
 
 # 总内存分配:

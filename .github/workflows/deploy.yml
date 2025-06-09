@@ -42,7 +42,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: baidaohui
+          projectName: baidaohui5
           directory: apps/web/apps/web/out
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
@@ -73,7 +73,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=baidaohui
+          command: pages deploy dist --project-name=baidaohui5
           workingDirectory: functions/pages
 
   deploy-sj-vps:
@@ -90,7 +90,7 @@ jobs:
           username: bgy
           key: ${{ secrets.SJ_VPS_SSH_KEY }}
           script: |
-            cd /home/bgy/baidaohui || mkdir -p /home/bgy/baidaohui
+            cd /home/bgy/baidaohui5 || mkdir -p /home/bgy/baidaohui5
             
             # 拉取最新代码
             if [ -d ".git" ]; then
@@ -155,7 +155,7 @@ jobs:
           username: bgy
           key: ${{ secrets.BUF_VPS_SSH_KEY }}
           script: |
-            cd /home/bgy/baidaohui || mkdir -p /home/bgy/baidaohui
+            cd /home/bgy/baidaohui5 || mkdir -p /home/bgy/baidaohui5
             
             # 拉取最新代码
             if [ -d ".git" ]; then
