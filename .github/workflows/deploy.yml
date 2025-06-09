@@ -27,6 +27,9 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           
+      - name: Install turbo
+        run: pnpm add -g turbo@2.5.4
+          
       - name: Build frontend
         run: |
           cd apps/web
