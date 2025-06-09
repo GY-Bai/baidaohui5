@@ -4,7 +4,7 @@ import { createHash } from 'crypto';
 
 interface StripeWebhookRequest extends Request {
   rawBody?: Buffer;
-  stripeEvent?: any;
+  stripeEvent?: unknown;
 }
 
 @Injectable()

@@ -84,7 +84,7 @@ export class StripeConfigService {
     }
   }
 
-  async listStripeConfigs(): Promise<any[]> {
+  async listStripeConfigs(): Promise<unknown[]> {
     try {
       const collection = this.db.collection('stripe_configs');
       return await collection.find({}).toArray();

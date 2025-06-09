@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Authentication service for baidaohui",
   "main": "dist/main.js",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

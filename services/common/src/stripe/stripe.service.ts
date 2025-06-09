@@ -50,7 +50,6 @@ export class StripeService {
     metadata?: Record<string, string>
   ) {
     const stripe = await this.getStripeClient(sellerId);
-    const config = await this.configService.getStripeConfig(sellerId);
     
     return stripe.checkout.sessions.create({
       payment_method_types: ['card'],

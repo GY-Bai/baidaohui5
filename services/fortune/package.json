@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "算命服务 - 处理订单排序、支付和状态管理",
   "main": "dist/main.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/main.js",

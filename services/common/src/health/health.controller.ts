@@ -12,7 +12,7 @@ interface HealthCheckResponse {
 @Controller()
 export class HealthController {
   @GrpcMethod('Health', 'Check')
-  check(data: HealthCheckRequest): HealthCheckResponse {
+  check(_data: HealthCheckRequest): HealthCheckResponse {
     // 简单的健康检查实现
     // 在实际应用中，这里可以检查数据库连接、外部服务等
     return {
@@ -21,7 +21,7 @@ export class HealthController {
   }
 
   @GrpcMethod('Health', 'Watch')
-  watch(data: HealthCheckRequest) {
+  watch(_data: HealthCheckRequest) {
     // 流式健康检查实现
     // 这里可以返回一个 Observable 来持续监控服务状态
     return {

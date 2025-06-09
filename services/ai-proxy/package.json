@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "AI proxy service for OpenRouter/Gemini routing with rate limiting",
   "main": "dist/main.js",
+  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
