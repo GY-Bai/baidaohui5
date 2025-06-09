@@ -49,7 +49,7 @@ jobs:
       - name: Start services for testing
         run: |
           # 启动必要的服务进行性能测试
-          docker-compose -f deploy/template.compose.yml up -d
+          docker compose -f deploy/template.compose.yml up -d
           sleep 30
         env:
           NODE_ENV: production
@@ -163,7 +163,7 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          docker-compose -f deploy/template.compose.yml down
+          docker compose -f deploy/template.compose.yml down
           docker system prune -f
 
   notify-performance:

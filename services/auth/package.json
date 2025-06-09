@@ -50,8 +50,7 @@
     "ts-loader": "^9.4.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.0.0",
-    "@kit/eslint-config": "workspace:*"
+    "typescript": "^5.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -70,4 +69,4 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
-} 
+}

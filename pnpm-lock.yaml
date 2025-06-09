@@ -106,12 +106,6 @@ importers:
       '@hono/node-server':
         specifier: ^1.12.0
         version: 1.14.4(hono@4.7.11)
-      '@kit/eslint-config':
-        specifier: workspace:*
-        version: link:../../apps/web/tooling/eslint
-      '@kit/prettier-config':
-        specifier: workspace:*
-        version: link:../../apps/web/tooling/prettier
       '@types/jest':
         specifier: ^29.5.12
         version: 29.5.14
@@ -124,12 +118,21 @@ importers:
       '@types/qrcode':
         specifier: ^1.5.5
         version: 1.5.5
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^6.0.0
+        version: 6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)
+      '@typescript-eslint/parser':
+        specifier: ^6.0.0
+        version: 6.21.0(eslint@8.57.1)(typescript@5.8.3)
       eslint:
         specifier: ^8.0.0
         version: 8.57.1
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@20.19.0)(ts-node@10.9.2(@types/node@20.19.0)(typescript@5.8.3))
+      prettier:
+        specifier: ^3.0.0
+        version: 3.5.3
       ts-jest:
         specifier: ^29.1.2
         version: 29.3.4(@babel/core@7.27.4)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.27.4))(jest@29.7.0(@types/node@20.19.0)(ts-node@10.9.2(@types/node@20.19.0)(typescript@5.8.3)))(typescript@5.8.3)
@@ -170,9 +173,6 @@ importers:
         specifier: ^7.8.1
         version: 7.8.2
     devDependencies:
-      '@kit/eslint-config':
-        specifier: workspace:*
-        version: link:../../apps/web/tooling/eslint
       '@nestjs/cli':
         specifier: ^10.0.0
         version: 10.4.9
@@ -270,9 +270,6 @@ importers:
         specifier: ^7.8.1
         version: 7.8.2
     devDependencies:
-      '@kit/eslint-config':
-        specifier: workspace:*
-        version: link:../../apps/web/tooling/eslint
       '@nestjs/cli':
         specifier: ^10.0.0
         version: 10.4.9
@@ -376,9 +373,6 @@ importers:
         specifier: ^8.14.0
         version: 8.18.2
     devDependencies:
-      '@kit/eslint-config':
-        specifier: workspace:*
-        version: link:../../apps/web/tooling/eslint
       '@nestjs/cli':
         specifier: ^10.0.0
         version: 10.4.9
@@ -604,9 +598,6 @@ importers:
         specifier: ^4.6.0
         version: 4.7.1
     devDependencies:
-      '@kit/eslint-config':
-        specifier: workspace:*
-        version: link:../../apps/web/tooling/eslint
       '@nestjs/cli':
         specifier: ^10.0.0
         version: 10.4.9

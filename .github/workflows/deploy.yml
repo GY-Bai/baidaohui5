@@ -134,9 +134,9 @@ jobs:
             EOF
             
             # 使用Docker Compose部署
-            docker-compose -f deploy/template.compose.yml down || true
-            docker-compose -f deploy/template.compose.yml pull
-            docker-compose -f deploy/template.compose.yml up -d gateway chat-service ai-proxy auth-service nginx
+            docker compose -f deploy/template.compose.yml down || true
+            docker compose -f deploy/template.compose.yml pull
+            docker compose -f deploy/template.compose.yml up -d gateway chat-service ai-proxy auth-service nginx
             
             # 等待服务启动
             sleep 30

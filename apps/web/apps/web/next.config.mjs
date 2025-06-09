@@ -17,8 +17,11 @@ const config = {
   reactStrictMode: true,
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: INTERNAL_PACKAGES,
+  output: IS_PRODUCTION ? 'export' : undefined,
+  trailingSlash: IS_PRODUCTION,
   images: {
     remotePatterns: getRemotePatterns(),
+    unoptimized: IS_PRODUCTION,
   },
   logging: {
     fetches: {

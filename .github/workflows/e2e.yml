@@ -36,7 +36,7 @@ jobs:
         run: |
           cd tests/e2e
           pnpm install
-          pnpm exec playwright install --with-deps
+          npx playwright install --with-deps
 
       - name: Build application
         run: |
