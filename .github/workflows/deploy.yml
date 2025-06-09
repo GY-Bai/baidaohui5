@@ -13,11 +13,37 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Skip frontend build for now
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.12.0
+          
+      - name: Install dependencies
         run: |
-          echo "Skipping frontend build to focus on Pages Functions"
-          mkdir -p apps/web/apps/web/out
-          echo "<html><body><h1>Placeholder</h1></body></html>" > apps/web/apps/web/out/index.html
+          pnpm install --frozen-lockfile
+          
+      - name: Build frontend
+        run: |
+          cd apps/web/apps/web
+          pnpm build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_PRODUCT_NAME: 百刀会
+          NEXT_PUBLIC_SITE_TITLE: 百刀会 - 专业的刀具交流平台
+          NEXT_PUBLIC_SITE_DESCRIPTION: 百刀会是一个专业的刀具爱好者交流平台，提供刀具展示、交易和社区功能
+          NEXT_PUBLIC_SITE_URL: https://baidaohui.com
+          NEXT_PUBLIC_DEFAULT_LOCALE: zh
+          NEXT_PUBLIC_DEFAULT_THEME_MODE: system
+          NEXT_PUBLIC_THEME_COLOR: "#000000"
+          NEXT_PUBLIC_THEME_COLOR_DARK: "#ffffff"
+          AI_PROXY_URL: https://gateway.baidaohui.com
+          R2_PUBLIC_URL: https://assets.baidaohui.com
           
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -179,4 +205,4 @@ jobs:
     steps:
       - name: Send completion notification
         run: |
-          curl -X POST "https://api.day.app/KX4VECCFPvfyponWk664rJ/百刀会部署完成/前端、后端服务和Pages Functions全部部署成功" 
+          curl -X POST "https://api.day.app/KX4VECCFPvfyponWk664rJ/百刀会部署完成/前端、后端服务和Pages Functions全部部署成功"
