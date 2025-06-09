@@ -7,19 +7,23 @@
     "dev": "wrangler pages dev",
     "build": "tsc",
     "deploy": "wrangler pages deploy",
-    "lint": "eslint api/**/*.ts",
+    "lint": "eslint functions/**/*.ts",
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@cloudflare/workers-types": "^4.20241218.0",
+    "aws4fetch": "^1.0.18",
+    "hono": "^4.5.3",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.0.0",
+    "mongodb": "^6.8.0",
     "qrcode": "^1.5.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240725.0",
+    "@hono/node-server": "^1.12.0",
     "@kit/eslint-config": "workspace:*",
+    "@kit/prettier-config": "workspace:*",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.0.0",

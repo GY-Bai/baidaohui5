@@ -1,7 +1,24 @@
+// Cloudflare Pages Function types
+interface PagesContext<Env = any> {
+  request: Request;
+  env: Env;
+  waitUntil: (promise: Promise<any>) => void;
+}
+
+type PagesFunction<Env = any> = (context: PagesContext<Env>) => Promise<Response> | Response;
+
 interface Env {
   SUPABASE_URL: string;
   SUPABASE_ANON_KEY: string;
 }
+
+interface PagesContext {
+  request: Request;
+  env: Env;
+  waitUntil: (promise: Promise<any>) => void;
+}
+
+type PagesFunction<Env = any> = (context: PagesContext) => Promise<Response> | Response;
 
 interface Product {
   id: string;
@@ -61,7 +78,7 @@ async function fetchProductsFromSupabase(
     throw new Error(`Supabase request failed: ${response.status}`);
   }
   
-  const products = await response.json();
+  const products = await response.json() as Product[];
   const total = parseInt(response.headers.get('Content-Range')?.split('/')[1] || '0');
   
   return { products, total };
@@ -91,7 +108,7 @@ function setCacheHeaders(response: Response, ttl: number): Response {
 }
 
 // GET请求处理器
-export const onRequestGet = async (context: any) => {
+export const onRequestGet: PagesFunction<Env> = async (context) => {
   try {
     const { request, env } = context;
     const url = new URL(request.url);
@@ -127,7 +144,7 @@ export const onRequestGet = async (context: any) => {
     const cacheUrl = new URL(request.url);
     cacheUrl.searchParams.set('cache_key', cacheKey);
     
-    const cache = caches.default;
+    const cache = (globalThis as any).caches.default;
     let cachedResponse = await cache.match(cacheUrl);
     
     if (cachedResponse) {
@@ -197,7 +214,7 @@ export const onRequestGet = async (context: any) => {
 };
 
 // OPTIONS请求处理器（CORS预检）
-export const onRequestOptions = async () => {
+export const onRequestOptions: PagesFunction = async () => {
   return new Response(null, {
     status: 200,
     headers: {

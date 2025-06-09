@@ -1,5 +1,14 @@
 import { AwsClient } from 'aws4fetch';
 
+// Cloudflare Pages Function types
+interface PagesContext<Env = any> {
+  request: Request;
+  env: Env;
+  waitUntil: (promise: Promise<any>) => void;
+}
+
+type PagesFunction<Env = any> = (context: PagesContext<Env>) => Promise<Response> | Response;
+
 interface Env {
   R2_ACCESS_KEY_ID: string;
   R2_SECRET_ACCESS_KEY: string;
@@ -7,6 +16,8 @@ interface Env {
   R2_ENDPOINT: string;
   SUPABASE_JWT_SECRET: string;
 }
+
+
 
 interface SignedUrlRequest {
   fileName: string;
@@ -85,14 +96,14 @@ function generateFileKey(category: string, fileName: string, userId: string): st
 
 // 验证文件类型和大小
 function validateFile(fileType: string, fileSize: number, category: string): string | null {
-  const maxSizes = {
+  const maxSizes: Record<string, number> = {
     avatar: 5 * 1024 * 1024, // 5MB
     chat: 10 * 1024 * 1024,  // 10MB
     product: 20 * 1024 * 1024, // 20MB
     fortune: 5 * 1024 * 1024,  // 5MB
   };
 
-  const allowedTypes = {
+  const allowedTypes: Record<string, string[]> = {
     avatar: ['image/jpeg', 'image/png', 'image/webp'],
     chat: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'video/mp4', 'video/webm'],
     product: ['image/jpeg', 'image/png', 'image/webp'],

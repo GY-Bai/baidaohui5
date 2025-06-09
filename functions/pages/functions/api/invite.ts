@@ -3,6 +3,15 @@ import { MongoClient, ObjectId } from 'mongodb';
 import QRCode from 'qrcode';
 import { randomBytes } from 'crypto';
 
+// Cloudflare Pages Function types
+interface PagesContext<Env = any> {
+  request: Request;
+  env: Env;
+  waitUntil: (promise: Promise<any>) => void;
+}
+
+type PagesFunction<Env = any> = (context: PagesContext<Env>) => Promise<Response> | Response;
+
 interface SessionPayload {
   userId: string;
   supabaseId: string;
@@ -36,7 +45,13 @@ interface CreateInviteResponse {
  * 生成 token & QR 码
  */
 
-export async function onRequestPost(context: any): Promise<Response> {
+interface InviteEnv {
+  SESSION_JWT_SECRET: string;
+  MONGODB_URL: string;
+  FRONTEND_URL?: string;
+}
+
+export const onRequestPost: PagesFunction<InviteEnv> = async (context) => {
   let mongoClient: MongoClient | null = null;
   
   try {
@@ -199,7 +214,7 @@ export async function onRequestPost(context: any): Promise<Response> {
   }
 }
 
-export async function onRequestGet(context: any): Promise<Response> {
+export const onRequestGet: PagesFunction<InviteEnv> = async (context) => {
   let mongoClient: MongoClient | null = null;
   
   try {
@@ -303,7 +318,7 @@ export async function onRequestGet(context: any): Promise<Response> {
   }
 }
 
-export async function onRequestOptions() {
+export const onRequestOptions: PagesFunction = async () => {
   return new Response(null, {
     status: 200,
     headers: {

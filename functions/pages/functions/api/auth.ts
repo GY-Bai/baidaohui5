@@ -6,6 +6,15 @@
 import jwt from 'jsonwebtoken';
 import { MongoClient } from 'mongodb';
 
+// Cloudflare Pages Function types
+interface PagesContext<Env = any> {
+  request: Request;
+  env: Env;
+  waitUntil: (promise: Promise<any>) => void;
+}
+
+type PagesFunction<Env = any> = (context: PagesContext<Env>) => Promise<Response> | Response;
+
 interface AuthRequest {
   supabaseToken: string;
   inviteToken?: string;
@@ -41,7 +50,13 @@ interface SessionPayload {
   exp: number;
 }
 
-export async function onRequestPost(context: any): Promise<Response> {
+interface AuthEnv {
+  SUPABASE_JWT_SECRET: string;
+  MONGODB_URL: string;
+  SESSION_JWT_SECRET: string;
+}
+
+export const onRequestPost: PagesFunction<AuthEnv> = async (context) => {
   let mongoClient: MongoClient | null = null;
   
   try {
@@ -199,9 +214,9 @@ export async function onRequestPost(context: any): Promise<Response> {
       await mongoClient.close();
     }
   }
-}
+};
 
-export async function onRequestOptions() {
+export const onRequestOptions: PagesFunction = async () => {
   return new Response(null, {
     status: 200,
     headers: {
@@ -210,4 +225,4 @@ export async function onRequestOptions() {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization'
     }
   });
-} 
+}; 

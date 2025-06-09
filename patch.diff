@@ -1,0 +1,27 @@
+diff --git a/apps/web/apps/web/package.json b/apps/web/apps/web/package.json
+index 8caa81e..7eaa6d9 100644
+--- a/apps/web/apps/web/package.json
++++ b/apps/web/apps/web/package.json
+@@ -6,17 +6,15 @@
+   "type": "module",
+   "scripts": {
+     "analyze": "ANALYZE=true pnpm run build",
+-    "build": "pnpm with-env next build",
+-    "build:test": "NODE_ENV=test pnpm with-env:test next build",
++    "build": "next build",
++    "build:test": "NODE_ENV=test dotenv -e ./.env.test -- next build",
+     "clean": "git clean -xdf .next .turbo node_modules",
+-    "dev": "pnpm with-env next dev --turbo | pino-pretty -c",
++    "dev": "dotenv -e ./.env.local -- next dev --turbo | pino-pretty -c",
+     "lint": "next lint && eslint .",
+     "format": "prettier --check \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
+-    "start": "pnpm with-env next start",
+-    "start:test": "NODE_ENV=test pnpm with-env:test next start",
++    "start": "dotenv -e ./.env.local -- next start",
++    "start:test": "NODE_ENV=test dotenv -e ./.env.test -- next start",
+     "typecheck": "tsc --noEmit",
+-    "with-env": "dotenv -e ./.env.local --",
+-    "with-env:test": "dotenv -e ./.env.test --",
+     "supabase": "supabase",
+     "supabase:start": "supabase status || supabase start",
+     "supabase:stop": "supabase stop",
