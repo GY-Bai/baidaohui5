@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   root: true,
   extends: [
     "eslint:recommended",
@@ -10,7 +10,7 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: "module",
     project: './tsconfig.json',
-    tsconfigRootDir: __dirname,
+    tsconfigRootDir: import.meta.dirname,
   },
   env: {
     node: true,

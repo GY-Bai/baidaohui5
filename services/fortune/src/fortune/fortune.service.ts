@@ -51,7 +51,7 @@ export class FortuneService {
       success_url: `${process.env.FRONTEND_URL}/fortune/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.FRONTEND_URL}/fortune/cancel`,
       metadata: {
-        order_id: order._id.toString(),
+        order_id: (order._id as any).toString(),
       },
     });
 

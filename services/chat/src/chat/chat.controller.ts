@@ -13,6 +13,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 import { ChatService } from './chat.service';
 import { MessageService } from './message.service';
 import { ThumbnailService } from './thumbnail.service';

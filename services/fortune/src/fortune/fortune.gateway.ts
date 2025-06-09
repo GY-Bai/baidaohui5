@@ -19,7 +19,7 @@ import { FortuneService } from './fortune.service';
 })
 export class FortuneGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   constructor(private readonly fortuneService: FortuneService) {}
 

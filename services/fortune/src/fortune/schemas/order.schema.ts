@@ -6,26 +6,26 @@ export type OrderDocument = Order & Document;
 @Schema({ timestamps: true })
 export class Order {
   @Prop({ required: true })
-  user_id: string;
+  user_id!: string;
 
   @Prop({ required: true, type: Number })
-  amount: number;
+  amount!: number;
 
   @Prop({ default: '' })
-  message: string;
+  message: string = '';
 
   @Prop({ default: false })
-  is_urgent: boolean;
+  is_urgent: boolean = false;
 
   @Prop({ type: [String], default: [] })
-  images: string[];
+  images: string[] = [];
 
   @Prop({ 
     required: true, 
     enum: ['pending', 'paid-queued', 'processing', 'completed', 'refunded'],
     default: 'pending'
   })
-  status: string;
+  status: string = 'pending';
 
   @Prop()
   stripe_payment_intent_id?: string;
@@ -34,10 +34,10 @@ export class Order {
   stripe_checkout_session_id?: string;
 
   @Prop({ type: Date, default: Date.now })
-  created_at: Date;
+  created_at: Date = new Date();
 
   @Prop({ type: Date, default: Date.now })
-  updated_at: Date;
+  updated_at: Date = new Date();
 
   @Prop()
   completed_at?: Date;
@@ -46,7 +46,7 @@ export class Order {
   reply?: string;
 
   @Prop({ type: [String], default: [] })
-  reply_images: string[];
+  reply_images: string[] = [];
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
