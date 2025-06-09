@@ -7,8 +7,8 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint"],
   parserOptions: {
-    project: "./tsconfig.json",
-    tsconfigRootDir: __dirname,
+    ecmaVersion: 2022,
+    sourceType: "module",
   },
   env: {
     node: true,
@@ -19,5 +19,17 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-require-imports": "off",
   },
+  ignorePatterns: [
+    "node_modules/",
+    "dist/",
+    "build/",
+    "coverage/",
+    "*.js",
+    "*.mjs",
+    "*.cjs",
+    ".next/",
+    ".wrangler/",
+  ],
 }; 
