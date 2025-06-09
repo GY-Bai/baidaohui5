@@ -1,4 +1,1 @@
-import eslintConfigApps from '@kit/eslint-config/apps.js';
-import eslintConfigBase from '@kit/eslint-config/base.js';
-
-export default [...eslintConfigBase, ...eslintConfigApps];
+import eslintConfigApps from "@kit/eslint-config/apps.js"; import eslintConfigBase from "@kit/eslint-config/base.js"; export default [...eslintConfigBase, ...eslintConfigApps, { rules: { "@typescript-eslint/no-unused-vars": "warn", "@typescript-eslint/no-explicit-any": "warn", "@typescript-eslint/no-unsafe-function-type": "warn", "react-hooks/exhaustive-deps": "warn", "@next/next/no-img-element": "warn", "react/no-unescaped-entities": "warn" } }];
